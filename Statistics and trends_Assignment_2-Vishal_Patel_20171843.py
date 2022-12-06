@@ -102,3 +102,64 @@ plot.set_yticklabels(plot.get_yticklabels(), rotation=0, horizontalalignment='ri
 plt.title('Heat MAP of India',size=50)
 plt.savefig("Heat map.jpeg",dpi=300) #Save the plot Image in JPEG formate
 plt.show()
+
+# Creating new dataframe by slicing/filtering the Indicatior column with Electric power consumption
+df7 = df[df['Indicator Name'].isin(['Electric power consumption (kWh per capita)'])].reset_index(drop=True)
+df8 = df7[df7['Country Name'].isin(['China','India','United States','Australia','Brazil','Nigeria','Germany','United Kingdom'])].reset_index(drop=True)#Filtering the Countries from Country Name Column
+df9 = df8.T.reset_index(drop=False) #Creating a Transpose of Data Frame
+df9 = df9.drop(df9.index[1]) #Droping the first Index
+df9.reindex([1,0]) #Reindexing
+df9.columns=df9.iloc[0] #Replcaing the header
+df9.rename(columns = {'Country Name' : 'Year'}, inplace = True) #Remane the column Name
+df9 = df9.drop(df9.index[0]) #Droping the Index
+df9 = df9.reset_index(drop=True) #Resetiing the index
+df9['Year'] = pd.to_numeric(df9['Year']) #Converting the column in to numeric
+df9 = df9[df9['Year']>= 2000]
+df9 = df9.reset_index(drop=True)
+df9[["China","India","United States","Australia","Brazil","Nigeria","Germany","United Kingdom"]] = df9[["China","India","United States","Australia","Brazil","Nigeria","Germany","United Kingdom"]].apply(pd.to_numeric)
+print(df9.describe()) #Provide Statistical Overview
+df9.to_excel('Electric power consumption (kWh per capita).xlsx') #Creating the excelfile of the dataset
+#Creating First Line Graph of the Electric Power Consuption of the countries
+plt.figure(figsize=(11,10)) #To Create figure
+df9.plot(x ='Year',y = ['China','India','United States','Australia','Brazil','Nigeria','Germany','United Kingdom'],rot = '45',figsize = [13,7],) # Plot the Line Grapgh
+plt.xlabel("Year",fontsize=20) #Setting the X lable of the grap
+plt.ylabel("Electric power consumption (kWh per capita)",fontsize=20) #Setting the Y lable of the Gragh
+plt.title("Electric power consumption",size=25) #Setting the title of the Graph
+plt.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left',prop={'size': 18}) #For getting legend out side the graph
+plt.grid(True) #To show grid in Plot
+plt.xticks(fontsize=20) #Changin the xtick size
+plt.yticks(fontsize=20) #Changin the xtick size
+plt.xlim(2000,2014) #limit the x values
+plt.savefig("Electric_Power_consuption.jpeg",dpi=300) #Save the plot Image in JPEG formate
+plt.show() #To show the plot
+
+# Creating new dataframe by slicing/filtering the Indicatior column with Renewable energy consumption (% of total final energy consumption
+df10 = df[df['Indicator Name'].isin(['Renewable energy consumption (% of total final energy consumption)'])].reset_index(drop=True)
+df11 = df10[df10['Country Name'].isin(['China','India','United States','Australia','Brazil','Nigeria','Germany','United Kingdom'])].reset_index(drop=True)#Filtering the Countries from Country Name Column
+df12 = df11.T.reset_index(drop=False) #Creating a Transpose of Data Frame
+df12 = df12.drop(df12.index[1]) #Droping the first Index
+df12.reindex([1,0]) #Reindexing
+df12.columns=df12.iloc[0] #Replcaing the header
+df12.rename(columns = {'Country Name' : 'Year'}, inplace = True) #Remane the column Name
+df12 = df12.drop(df12.index[0]) #Droping the Index
+df12 = df12.reset_index(drop=True) #Resetiing the index
+df12[["Year","China","India","United States","Australia","Brazil","Nigeria","Germany","United Kingdom"]] = df12[["Year","China","India","United States","Australia","Brazil","Nigeria","Germany","United Kingdom"]].apply(pd.to_numeric) #Converting the column in to numeric #Converting the column in to numeric
+df12 = df12[df12['Year']>= 2000]
+df12 = df12.reset_index(drop=True)
+#df12[["China","India","United States","Australia","Brazil","Nigeria","Germany","United Kingdom"]] = df12[["China","India","United States","Australia","Brazil","Nigeria","Germany","United Kingdom"]].apply(pd.to_numeric)
+print(df12.describe()) #Provide Statistical Overview
+df12 = df12.dropna() #Drop Na Value
+df12.to_excel('Renewable energy consumption (% of total final energy consumption).xlsx') #Creating the excelfile of the dataset
+#Creating Second Line Graph of the Electric Power Consuption of the countries
+plt.figure(figsize=(11,10)) #To Create figure
+df12.plot(x ='Year',y = ['China','India','United States','Australia','Brazil','Nigeria','Germany','United Kingdom'],rot = '45',figsize = [13,7]) # Plot the Line Grapgh
+plt.xlabel("Year",fontsize=20) #Setting the X lable of the grap
+plt.ylabel("Renewable energy consumption(%)",fontsize=20) #Setting the Y lable of the Gragh
+plt.title("Renewable energy consumption",size=25) #Setting the title of the Graph
+plt.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left',prop={'size': 18}) #For getting legend out side the graph
+plt.grid(True) #To show grid in Plot
+plt.xticks(fontsize=20) #Changin the xtick size
+plt.yticks(fontsize=20) #Changin the xtick size
+plt.xlim(2000,2014) #limit the x values
+plt.savefig("Renewable energy consumption.jpeg",dpi=300) #Save the plot Image in JPEG formate
+plt.show() #To show the plot
