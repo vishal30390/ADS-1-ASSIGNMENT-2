@@ -76,3 +76,29 @@ plt.grid(True) #To show grid in Plot
 plt.savefig("CO2 emissions (kt).jpeg",dpi=300) #Save the plot Image in JPEG formate
 plt.show() #To show the plot
 
+#Creating new dataframe by slicing/filtering the Indicatior column with selected Indicator
+df5 = df[df['Indicator Name'].isin(['Urban population','CO2 emissions (kt)','Electric power consumption (kWh per capita)','Forest area (sq. km)','Agricultural land (sq. km)','Renewable energy consumption (% of total final energy consumption)','Community health workers (per 1,000 people)'])].reset_index(drop=True)
+df5 = df5[df5['Country Name'].isin(['India'])].reset_index(drop=True) #Filtering the Country from Country Name Column
+df6 = df5.T.reset_index(drop=False) #Creating a Transpose of Data Frame
+df6 = df6.drop(df6.index[1]) #Droping the first Index
+df6.reindex([1,0]) #Reindexing
+df6.columns=df6.iloc[0] #Replcaing the header
+df6.rename(columns = {'Country Name' : 'Year'}, inplace = True) #Remane the column Name
+df6.columns = ['Year','Urban population','CO2 Emissions','Ele. power consumption','Forest area','Agricultural land','Renewable energy con.','Comm.health workers']
+df6 = df6.drop(df6.index[0]) #Droping the Index
+df6 = df6.reset_index(drop=True) #Resetiing the index
+print(df6.describe()) # Provide Statistical Overview
+df6['Year'] = pd.to_numeric(df6['Year']) #Converting the column in to numeric
+df6 = df6[df6['Year']>= 2011] #Selecting the data from 2011
+df6.drop(["Year"],axis=1,inplace=True)
+df6 = df6.reset_index(drop=True) #Resetting the index
+df6[['Urban population','CO2 Emissions','Ele. power consumption','Ele. power consumption','Forest area','Agricultural land','Renewable energy con.','Comm.health workers']]=np.float64(df6[['Urban population','CO2 Emissions','Ele. power consumption','Ele. power consumption','Forest area','Agricultural land','Renewable energy con.','Comm.health workers']])
+df6.to_excel('India_Indicaators.xlsx') #Creating the excelfile of the dataset
+print(df6.corr())
+plt.figure(figsize=(30,20)) #To Create figure
+plot = sns.heatmap(df6.corr(),vmin=-1, vmax=1, annot=True, linewidth=1, linecolor='black', annot_kws={"size":40}) #To Create Heatmap
+plot.set_xticklabels(plot.get_xticklabels(), rotation=90, horizontalalignment='right',fontsize=45)
+plot.set_yticklabels(plot.get_yticklabels(), rotation=0, horizontalalignment='right',fontsize=45)
+plt.title('Heat MAP of India',size=50)
+plt.savefig("Heat map.jpeg",dpi=300) #Save the plot Image in JPEG formate
+plt.show()
