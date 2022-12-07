@@ -240,3 +240,36 @@ plt.xticks(fontsize=40) #Changin the xtick size
 plt.yticks(fontsize=40) #Changin the xtick size
 plt.legend(prop={'size': 45})
 plt.show() #To show the plot
+
+#Creating new dataframe by slicing/filtering the Indicatior column with Community health workers
+df19 = df[df['Indicator Name'].isin(['Community health workers (per 1,000 people)'])].reset_index(drop=True)
+df20 = df19[df19['Country Name'].isin(['China','India','United States','Australia','Brazil','Nigeria','Germany','United Kingdom'])].reset_index(drop=True)#Filtering the Countries from Country Name Column
+df21 = df20.T.reset_index(drop=False) #Creating a Transpose of Data Frame
+df21 = df21.drop(df21.index[1]) #Droping the first Index
+df21.reindex([1,0]) #Reindexing
+df21.columns=df21.iloc[0] #Replcaing the header
+df21.rename(columns = {'Country Name' : 'Year'}, inplace = True) #Remane the column Name
+df21 = df21.drop(df21.index[0]) #Droping the Index
+df21 = df21.reset_index(drop=True) #Resetiing the index
+df21['Year'] = pd.to_numeric(df21['Year']) #Converting the column in to numeric
+df21 = df21[df21['Year']>= 2011]
+df21 = df21.reset_index(drop=True)
+df21[["China","India","United States","Australia","Brazil","Nigeria","Germany","United Kingdom"]] = df2[["China","India","United States","Australia","Brazil","Nigeria","Germany","United Kingdom"]].apply(pd.to_numeric)
+print(df21.describe()) #Provide Statistical Overview
+df21.to_excel('Community health workers (per 1,000 people).xlsx') #Creating the excelfile of the dataset
+df22 = df21.sum()# Sum of All Column and Print
+print(df22)
+column_Name = {'Countries':['China','India','United States','Australia','Brazil','Nigeria','Germany','United Kingdom'],'Community health workers':[2.283630e+08,1.949700e+09,8.638333e+09,6.965366e+08,5.969760e+08,4.846143e+09,1.001720e+09,2.905083e+09]}
+df23 = pd.DataFrame(column_Name)
+print(df23)
+# Ploting the subplots 
+plt.figure(figsize=(23,9)) #Creating the figure
+plt.suptitle("Urban Population VS Community health workers (per 1,000 people)", fontsize=32) #To generate the subplot title
+plt.subplot(1,2,1) #To create first plot of subplot
+plt.pie(df_mean['Mean of UrbanPopulation'],labels=df_mean['Countries'],rotatelabels=False,autopct='%1.0f%%',shadow=False,labeldistance=1.01,radius=1.2,pctdistance=0.7,textprops = {"fontsize":25}) #Generating the first pie chart
+plt.title("Urban Population",loc="center",fontsize=30) #To provide the title 
+plt.subplot(1,2,2) #To create first plot of subplot
+plt.pie(df23['Community health workers'],labels=df23['Countries'],rotatelabels=False,autopct='%1.0f%%',shadow=False,labeldistance=1.01,radius=1.2,pctdistance=0.7,textprops = {"fontsize":25}) #Generating the second pie chart
+plt.title("Community health workers",loc="center",fontsize=30) #To provide the title to first plot
+#plt.legend(prop={'size': 25}) #To show the legend
+plt.show() #To show the plot
