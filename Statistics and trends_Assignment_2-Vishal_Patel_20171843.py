@@ -163,3 +163,80 @@ plt.yticks(fontsize=20) #Changin the xtick size
 plt.xlim(2000,2014) #limit the x values
 plt.savefig("Renewable energy consumption.jpeg",dpi=300) #Save the plot Image in JPEG formate
 plt.show() #To show the plot
+
+#Creating new dataframe by slicing/filtering the Indicatior column with Required indicator
+df13 = df[df['Indicator Name'].isin(['Forest area (sq. km)','Agricultural land (sq. km)'])].reset_index(drop=True)
+df14 = df13[df13['Country Name'].isin(['India'])].reset_index(drop=True) #Filtering the Countries from Country Name Column
+df15 = df14.T.reset_index(drop=False) #Creating a Transpose of Data Frame
+df15 = df15.drop(df15.index[1]) #Droping the first Index
+df15.reindex([1,0]) #Reindexing
+df15.columns=df15.iloc[0] #Replcaing the header
+df15.rename(columns = {'Country Name' : 'Year'}, inplace = True) #Rename the column Name
+df15.columns = ['Year','Forest area','Agricultural land']
+df15 = df15.drop(df15.index[0]) #Droping the Index
+df15 = df15.reset_index(drop=True) #Resetiing the index
+print(df15.describe()) # Provide Statistical Overview
+df15[["Year","Forest area","Agricultural land"]] = df15[["Year","Forest area","Agricultural land"]].apply(pd.to_numeric) #Converting the column in to numeric
+df15 = df15[df15['Year']>= 2011] #Selecting the data from 2011
+#df15.drop(["Year"],axis=1,inplace=True)
+df15 = df15.reset_index(drop=True) #Resetting the index
+df15[["Forest area","Agricultural land"]] = df15[["Forest area","Agricultural land"]].apply(pd.to_numeric)
+df15.to_excel('India_Dataframe.xlsx') #Creating the excelfile of the dataset
+#Creating new dataframe by filtering the Indicatior column with Required indicator
+df16 = df[df['Indicator Name'].isin(['Forest area (sq. km)','Agricultural land (sq. km)'])].reset_index(drop=True)
+df17 = df16[df16['Country Name'].isin(['Brazil'])].reset_index(drop=True) #Filtering the Countries from Country Name Column
+df18 = df17.T.reset_index(drop=False) #Creating a Transpose of Data Frame
+df18 = df18.drop(df18.index[1]) #Droping the first Index
+df18.reindex([1,0]) #Reindexing
+df18.columns=df18.iloc[0] #Replcaing the header
+df18.rename(columns = {'Country Name' : 'Year'}, inplace = True) #Remane the column Name
+df18.columns = ['Year','Forest area','Agricultural land']
+df18 = df18.drop(df18.index[0]) #Droping the Index
+df18 = df18.reset_index(drop=True) #Resetiing the index
+print(df18.describe()) # Provide Statistical Overview
+df18[["Year","Forest area","Agricultural land"]] = df18[["Year","Forest area","Agricultural land"]].apply(pd.to_numeric) #Converting the column in to numeric
+df18 = df18[df18['Year']>= 2011] #Selecting the data from 2011
+#df15.drop(["Year"],axis=1,inplace=True)
+df18 = df18.reset_index(drop=True) #Resetting the index
+df18[["Forest area","Agricultural land"]] = df18[["Forest area","Agricultural land"]].apply(pd.to_numeric)
+df18.to_excel('Aus_Dataframe.xlsx') #Creating the excelfile of the dataset
+# Ploting the subplots 
+plt.figure(figsize=(35,26)) 
+plt.suptitle("Forest area Vs Agricultural Land in India and Brazil", fontsize=50) #To generate the subplot title
+plt.subplot(2,2,1) #To create first plot of subplot
+plt.plot(df15["Year"], df15["Forest area"],color='red', label="Forest area")
+plt.xlabel("Year",fontsize=35) #To create x label
+plt.ylabel("Forest area (sq. km)",fontsize=45) #To create y label
+plt.xticks(fontsize=40) #Changin the xtick size
+plt.yticks(fontsize=40) #Changin the xtick size
+plt.grid(True)
+plt.title("Forest Area-India",fontsize=45) #To provide the title to first plot
+plt.legend(prop={'size': 45}) #To create first plot of subplot
+plt.subplot(2,2,2) #To create second plot of subplot.
+plt.plot(df15["Year"], df15["Agricultural land"],color='green', label="Agricultural Land")
+plt.xlabel("Year",fontsize=35) #To create x label  
+plt.ylabel("Agricultural land (sq. km)",fontsize=35) #To create y label
+plt.xticks(fontsize=40) #Changin the xtick size
+plt.yticks(fontsize=40) #Changin the xtick size
+plt.grid(True) #To create grid
+plt.title("Agricultural land-Indai",fontsize=45) #To provide the title to second plot
+plt.legend(prop={'size': 45}) #To create legend
+plt.subplot(2,2,3) #To create first plot of subplot
+plt.plot(df18["Year"], df18["Forest area"],color='red', label="Forest area")
+plt.xlabel("Year",fontsize=35)
+plt.ylabel("Forest area (sq. km)",fontsize=45)
+plt.grid(True)#To create grid
+plt.title("Forest area-Brazil",fontsize=45) #To provide the title to first plot
+plt.xticks(fontsize=40) #Changin the xtick size
+plt.yticks(fontsize=40) #Changin the xtick size
+plt.legend(prop={'size': 45})
+plt.subplot(2,2,4) #To create second plot of subplot.
+plt.plot(df18["Year"], df18["Agricultural land"],color='green', label="Agricultural Land")
+plt.xlabel("Year",fontsize=35)  
+plt.ylabel("Agricultural land (sq. km)",fontsize=35)
+plt.grid(True)
+plt.title("Agricultiral land-Brazil",fontsize=45) #To provide the title to second plot
+plt.xticks(fontsize=40) #Changin the xtick size
+plt.yticks(fontsize=40) #Changin the xtick size
+plt.legend(prop={'size': 45})
+plt.show() #To show the plot
