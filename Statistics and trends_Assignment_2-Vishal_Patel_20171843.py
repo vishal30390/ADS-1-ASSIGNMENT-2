@@ -6,8 +6,8 @@ import seaborn as sns
 
 def Read(file): #Define the function to read the excel file
     dataframe=pd.read_excel(file,header=[3])
-    print(dataframe)
-    return dataframe
+    print(dataframe) #Print the dataframe
+    return dataframe #Return the function
 
 df_wb = Read("World_Bankdata_Climate_change.xls") #Calling the function with argument to read file
 
@@ -81,7 +81,7 @@ df6['Year'] = pd.to_numeric(df6['Year']) #Converting the column in to numeric
 df6 = df6[df6['Year']>= 2011].reset_index(drop=True) #Selecting the data from 2011
 df6.drop(["Year"],axis=1,inplace=True) #droping the column
 df6 = df6.astype(float) # Convert data in float
-df6.to_excel('India_Indicaators.xlsx') #Creating the excelfile of the dataset
+df6.to_excel('India_Indicators.xlsx') #Creating the excelfile of the dataset
 print(df6.corr())
 
 def Heatmap(): #Define function to creat Heatmap
