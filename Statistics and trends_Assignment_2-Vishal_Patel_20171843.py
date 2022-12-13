@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 def Read(file): #Define the function to read the excel file
-    dataframe=pd.read_excel(file,header=[3])
+    dataframe=pd.read_excel(file,header=[3]) #To read the excel file with coustomise header
     print(dataframe) #Print the dataframe
     return dataframe #Return the function
 
@@ -156,7 +156,7 @@ print(df15.describe()) # Provide Statistical Overview
 df15 = df15.astype(float) # Convert the data in to float
 df15 = df15[df15['Year']>= 2011].reset_index(drop=True) #Selecting the data from 2011
 df15 = df15.reset_index(drop=True) #Resetting the index
-print(df15)
+print(df15) #Print the dataset
 df15.to_excel('India_Dataframe.xlsx') #Creating the excelfile of the dataset
 #Creating new dataframe by filtering the Indicatior column with Required indicator
 df16 = df_wb[df_wb['Indicator Name'].isin(['Forest area (sq. km)',
